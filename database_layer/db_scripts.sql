@@ -89,6 +89,7 @@ AS $function$
 $function$
 
 select getting_detail_by_id_real_estate_by_realtor(1)
+
 CREATE OR REPLACE FUNCTION public.getting_detail_by_id_real_estate_by_realtor(id_real_estate bigint)
  RETURNS TABLE(adress character varying, description text, declared_price float, area float, 
 			   "type" character varying,
