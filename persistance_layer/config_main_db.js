@@ -1,7 +1,8 @@
 export const main_db = {
-    username: 'postgres',
-    host: 'localhost',
+    user: 'arch',
+    host: '127.0.0.1',
     database: 'db_arch_labs_real_estate',
-    password: 'dcatnowls1711',
+    password: '11111111',
     port: 5432,
+    keepAlive:true
 };
