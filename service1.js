@@ -2,8 +2,9 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import fasade from './business_layer/fasade.js';
+import Fasade from './business_layer/fasade.js';
 
+const fasade = new Fasade()
 
 const service1 = express();
 
@@ -26,7 +27,7 @@ service1.post('/search', urlencodedParser, async function (//done
 ) {
   if (!request.body) return response.sendStatus(400)
   else{
-    let result = await fasade.chainOfResponsibility(request.path, request.query)
+    let result = await fasade.chain(request.path, request.query)
     console.log("Sucsessfully got data from provider 1 \n"  + result)
    response.send(
      result

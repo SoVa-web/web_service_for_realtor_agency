@@ -3,9 +3,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import * as http from 'http'
-import fasade from './business_layer/fasade.js';
+import Fasade from './business_layer/fasade.js';
 
-//переделать на билдер и клас
+const fasade = new Fasade()
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -26,7 +26,7 @@ app.post('/addAd', urlencodedParser,  async function (//done
 ) {
   if (!request.body) return response.sendStatus(400)
   else {
-    let result = await fasade.chainOfResponsibility(request.originalUrl, request.body)
+    let result = await fasade.chain(request.originalUrl, request.body)
     response.send("Inserted in DB, ID = " + result)
   }
 
@@ -40,7 +40,7 @@ app.post('/search_by_price', urlencodedParser, async function (//done
 ) {
   if (!request.body) return response.sendStatus(400)
   else{
-    let result = await fasade.chainOfResponsibility(request.originalUrl, request.body)
+    let result = await fasade.chain(request.originalUrl, request.body)
     console.log(result[0][0])
   
    response.send(

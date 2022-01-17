@@ -2,7 +2,10 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import fasade from './business_layer/fasade.js';
+import Fasade from './business_layer/fasade.js';
+
+const fasade = new Fasade()
+
 
 const service2 = express();
 
@@ -25,7 +28,7 @@ service2.post('/price-list/', urlencodedParser, async function (//done
 ) {
   if (!request.body) return response.sendStatus(400)
   else{
-    let result = await fasade.chainOfResponsibility(request.path, request.query)
+    let result = await fasade.chain(request.path, request.query)
     console.log("Sucsessfully got data from provider 2 \n"  + result)
    response.send(
      result
@@ -41,7 +44,7 @@ service2.post('/details/', urlencodedParser, async function (//done
 ) {
   if (!request.body) return response.sendStatus(400)
   else{
-    let result = await fasade.chainOfResponsibility(request.path, request.query)
+    let result = await fasade.chain(request.path, request.query)
     console.log("Sucsessfully got data from provider 2 \n"  + result)
    response.send(
      result
