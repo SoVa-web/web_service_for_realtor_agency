@@ -1,0 +1,7 @@
+{
+    "dependencies": {
+      "@nestjs/core": "^8.2.4",
+      "nest": "^0.1.6"
+    },
+    "type": "module"
+  }

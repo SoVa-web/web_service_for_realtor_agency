@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>lab2</title>
+    <meta charset="utf-8" />
+</head>
+<body style = "
+    display: flex;
+    flex-direction: column; 
+">
+    <div class="menu" style=" display: flex; align-items: center; justify-content: center; flex-direction: column; ">
+        <button style="margin: 10px;" onclick="adding()">Додати об'яву</button>
+        <button style="margin: 10px;" onclick="search_ads()">Пошук нерухомості </button>
+        <button style="margin: 10px;" onclick="search_ads_prov1()"> Постачальник 1. Пошук об'яв за ціною</button>
+        <form action="/price-list/" method="get"> <button style="margin: 10px;">Постачальник 2. Список об'яв</button></form>
+        <button style="margin: 10px;" onclick="prov2_details_by_id()">Постачальник 2. Детальний опис</button>
+    </div>    
+    <div class = "addAd" style="display: none; ">    
+        <h1>Введіть дані об'яви</h1>
+        <div>
+             <form action="/addAd" method="post">
+                <label>ПІБ</label><br>
+                <input type="text" name="name" /><br><br>
+                <label>Номер телефону</label><br>
+                <input type="text" name="number_phone" /><br><br>
+                <label>E-mail</label><br>
+                <input type="text" name="email" /><br><br>
+                <label>Адреса</label><br>
+                <input type="text" name="adress" /><br><br>
+                <label>Ціна за м^2</label><br>
+                <input type="number" name="price" /><br><br>
+                <label>Площа в м^2</label><br>
+                <input type="number" name="area" /><br><br>
+                <label>Тип</label><br>
+                <input type="text" name="type" /><br><br>
+                <label>Опис</label><br>
+                <input type="text" name="description" /><br><br>
+                <input type="submit" value="Додати" />
+            </form>
+        </div>
+    </div>
+
+    <div class="search_by_price" style="display: none;">
+        <h1>Пошук товару за ціною</h1>
+        <form action="/search_by_price" method="post">
+                <label>Від</label><br>
+                <input type="number" name="price_from" /><br><br>
+                <label>До</label><br>
+                <input type="number" name="price_to" /><br><br>
+                <input type="submit" value="Пошук" />
+        </form>
+    </div>
+    
+    <div class="search_by_price_prov1" style="display: none;">
+        <h1>Пошук об'яв</h1>
+        <form  action="/search" method="get">
+                <label>Ціна від</label><br>
+                <input type="number" name="price_from" /><br><br>
+                <label>Ціна до</label><br>
+                <input type="number" name="price_to" /><br><br>
+                <input type="submit" value="Знайти"/>
+            </form>
+    </div>
+
+    <div class="prov2_details_by_id" style="display: none;">
+        <h1>Пошук об'яв</h1>
+        <form  action="/details/" method="get">
+                <label>Ідентифікатор об'яви </label><br>
+                <input type="number" name="id" /><br><br>
+                <input type="submit" value="Знайти"/>
+        </form>
+    </div>
+    <script>
+            function adding() {//done
+                document.getElementsByClassName('addAd')[0].style.display ='block';
+                document.getElementsByClassName('menu')[0].style.display ='none';
+            }
+            
+            function search_ads(){ //done
+                document.getElementsByClassName('search_by_price')[0].style.display ='block';
+                document.getElementsByClassName('menu')[0].style.display ='none';
+            }
+            
+
+            
+            function search_ads_prov1() {
+                document.getElementsByClassName('search_by_price_prov1')[0].style.display ='block';
+                document.getElementsByClassName('menu')[0].style.display ='none';
+            }
+            
+            
+            
+            function prov2_details_by_id(){
+                document.getElementsByClassName('prov2_details_by_id')[0].style.display ='block';
+                document.getElementsByClassName('menu')[0].style.display ='none';
+            }
+    </script>
+</body>
+</html>
