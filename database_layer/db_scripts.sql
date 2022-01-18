@@ -285,6 +285,38 @@ AS $function$
 	real_estate.active = TRUE
 $function$
 
+
+CREATE OR REPLACE FUNCTION public.set_lessor(name_lessor varchar (255), phone_number varchar (255), email varchar (255))
+ RETURNS integer
+ LANGUAGE plpgsql
+AS $function$
+declare 
+	new_id int = 0;
+begin
+	insert into lessor (full_name, contact_phone_number, contact_email)
+			values(name_lessor, phone_number, email)
+			returning ID into new_id;
+			return new_id;
+end
+$function$
+
+
+CREATE OR REPLACE FUNCTION public.set_ad(id_les bigint, adr text, 
+										 descr text, price float, 
+										 area_m float, type_real_estate varchar (255))
+ RETURNS integer
+ LANGUAGE plpgsql
+AS $function$
+declare
+	new_id bigint =  0;
+begin
+	insert into real_estate (id_lessor, adress, description, declared_price, area, type, active)
+			values(id_les, adr, descr, price, area_m, type_real_estate, TRUE)
+			returning ID into new_id;
+			return new_id;
+end
+$function$
+
 /* MAIN DB*/
 
 CREATE OR REPLACE FUNCTION public.getting_list_description()

@@ -1,14 +1,16 @@
 import connect_main from './persistance_layer/singlton_main_db.js';
+import connect_provider1 from './persistance_layer/singlton_provider1.js';
+
 import Query_Constructor from './persistance_layer/query.js';
 
 
 const symbol_letters = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm"
 const symbol_number = "1234567890"
-let number_item = 100000
+let number_item = 50000
 
 class Generator{
-    constructor(){
-        this.connection = connect_main
+    constructor(connect){
+        this.connection = connect
         this.builder = new Query_Constructor()
     }
 
@@ -52,6 +54,8 @@ class Generator{
 }
 
 
-const generator = new Generator()
+//const generator = new Generator(connect_main)
+const gen_prov1 = new Generator(connect_provider1)
 
-await generator.process()
+//await generator.process()
+await gen_prov1.process()
