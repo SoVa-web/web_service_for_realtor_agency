@@ -70,8 +70,8 @@ app.get("/search"/* to builder */, urlencodedParser, function (request, response
 
     let data = ''
 
-    res.on('data', function (chunk) {
-      data += chunk.toString()
+    res.on('data', function (item_data) {
+      data += item_data.toString()
       console.log("we heere \n " + data)
     });
 
@@ -105,9 +105,9 @@ app.get('/price-list/'/* to builder */, urlencodedParser, function (request, res
 
     let data = ''
 
-    res.on('data', function (chunk) {
-      data += chunk.toString()
-      console.log("we heere \n " + data)
+    res.on('data', function (item_data) {
+      data += item_data.toString()
+      console.log("we heere \n ")
     });
 
     res.on('end', function () {
@@ -137,9 +137,9 @@ app.get('/details/*'/* to builder */, urlencodedParser, function (request, respo
 
     let data = ''
 
-    res.on('data', function (chunk) {
-      data += chunk.toString()
-      console.log("we heere \n " + data)
+    res.on('data', function (chuitem_datank) {
+      data += item_data.toString()
+      console.log("we heere \n ")
     });
 
     res.on('end', function () {

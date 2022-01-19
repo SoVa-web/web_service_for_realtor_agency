@@ -208,6 +208,16 @@ select*from real_estate
 
 /*Provider 2*/
 
+CREATE OR REPLACE FUNCTION public.getting_price_list_real_estate_by_page(lower_id bigint, uper_id bigint)
+ RETURNS TABLE(id_real_estate bigint, price float, type_name character varying)
+ LANGUAGE sql
+AS $function$ 
+	select   distinct 
+	real_estate.ID as id_real_estate,  real_estate.declared_price * real_estate.area as price, real_estate.type as type_name
+	from real_estate 
+	where real_estate.ID >= lower_id and real_estate.ID < uper_id
+$function$
+
 select getting_price_list_real_estate()
 
 CREATE OR REPLACE FUNCTION public.getting_price_list_real_estate_by_name()

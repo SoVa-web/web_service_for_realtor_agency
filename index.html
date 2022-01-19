@@ -12,9 +12,19 @@
         <button style="margin: 10px;" onclick="adding()">Додати об'яву</button>
         <button style="margin: 10px;" onclick="search_ads()">Пошук нерухомості </button>
         <button style="margin: 10px;" onclick="search_ads_prov1()"> Постачальник 1. Пошук об'яв за ціною</button>
-        <form action="/price-list/" method="get"> <button style="margin: 10px;">Постачальник 2. Список об'яв</button></form>
+        <button style="margin: 10px;" onclick="prov2_price_list()">Постачальник 2. Список об'яв</button>
         <button style="margin: 10px;" onclick="prov2_details_by_id()">Постачальник 2. Детальний опис</button>
-    </div>    
+    </div>   
+    <div class = "pageGet" style="display: none; ">    
+        <h1>Введіть сторінку для відображення даних</h1>
+        <div>
+             <form action="/price-list/" method="get">
+                <label>Номер сторінки даних</label><br>
+                <input type="number" name="number" /><br><br>
+                <input type="submit" value="Знайти" />
+            </form>
+        </div>
+    </div>
     <div class = "addAd" style="display: none; ">    
         <h1>Введіть дані об'яви</h1>
         <div>
@@ -92,6 +102,11 @@
             
             function prov2_details_by_id(){
                 document.getElementsByClassName('prov2_details_by_id')[0].style.display ='block';
+                document.getElementsByClassName('menu')[0].style.display ='none';
+            }
+
+            function prov2_price_list(){
+                document.getElementsByClassName('pageGet')[0].style.display ='block';
                 document.getElementsByClassName('menu')[0].style.display ='none';
             }
     </script>
