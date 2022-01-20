@@ -156,6 +156,25 @@ FOREIGN KEY(id_lessee) REFERENCES lessee(ID)
 )
 
 
+create table lessor_cach(
+ID bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+full_name  varchar (255) NOT NULL, 
+contact_phone_number varchar (255) NOT NULL,
+contact_email varchar (255) NOT NULL
+)
+
+create table real_estate_cach(
+ID bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+id_lessor bigint NOT NULL,
+adress varchar (255) NOT NULL,
+description text,
+declared_price float,
+area float NOT NULL,
+"type" varchar (255) NOT NULL,
+active bool NOT NULL,
+FOREIGN KEY(id_lessor) REFERENCES lessor_cach(ID)
+)
+
 
 insert into lessor (full_name, contact_phone_number, contact_email)
 values ('Mark Markov', '+3806777777777', 'mark.thrtfg.w@gmail.com'),

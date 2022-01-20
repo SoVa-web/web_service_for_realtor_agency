@@ -61,8 +61,8 @@ class Generator{
 }
 
 
-//const generator = new Generator(connect_main)
-const gen_prov1 = new Generator(connect_provider2)
+const generator = new Generator(connect_main)
+//const gen_prov1 = new Generator(connect_provider2)
 
-//await generator.process()
-await gen_prov1.process()
+await generator.process()
+//await gen_prov1.process()

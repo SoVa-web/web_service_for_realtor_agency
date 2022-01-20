@@ -15,7 +15,6 @@ const urlencodedParser = express.urlencoded({extended: false});//***************
 
 service1.use(express.static(path.join(__dirname)));//******************************************************************* */
 
-
 service1.listen(3001, () => {
     console.log('Application listening on port 3001!');
 });
@@ -32,8 +31,8 @@ service1.post('/search', urlencodedParser, async function (//done
     const send_f = ()=>{response.send(
       result
     )}
-    setTimeout(send_f, 20000)
-  
+    setTimeout(send_f, 2000)//
+
   }
   
 });
