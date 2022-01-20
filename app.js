@@ -7,7 +7,8 @@ import Fasade from './business_layer/fasade.js';
 import cache from './cach.js'
 import fetch from 'cross-fetch';
 import client from './redis-server.js';
-import pr from './business_layer/specification.js'
+
+
 
 client.connect()
 
@@ -31,7 +32,6 @@ app.listen(3000, () => {
   caching()
 });
 
-pr()
 
 app.post('/addAd', urlencodedParser,  async function (//done
   request,
@@ -46,6 +46,22 @@ app.post('/addAd', urlencodedParser,  async function (//done
  
 })
 
+
+app.post('/all_db/', urlencodedParser, async function(
+  request,
+  response
+){
+  if (!request.body) return response.sendStatus(400)
+  else{
+
+    let result = await fasade.spesification(request.body)
+  
+   response.send(
+     result
+   )
+  
+  }
+})
 
 app.post('/search_by_price', urlencodedParser, async function (//done
   request,
