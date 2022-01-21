@@ -31,7 +31,7 @@ service1.post('/search', urlencodedParser, async function (//done
     const send_f = ()=>{response.send(
       result
     )}
-    setTimeout(send_f, 2000)//
+    setTimeout(send_f, 20000)//
 
   }
   
