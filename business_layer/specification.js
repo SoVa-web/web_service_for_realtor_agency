@@ -122,13 +122,83 @@ async function filterPrice(body){
     }
 }
 
-function filterType(body){
-    return {}
+async function filterType(body){
+    let arr_res = []
+    let mainRes = await builder.select()
+    let el = {}
+    for(let i = 0 ; i < mainRes.length; i++){
+        if(mainRes[i].type == body.type_real_estate){
+            el = mainRes[i]
+            el["source"] = "main"
+            arr_res.push(el)
+        }
+    }
+
+    let prov1 = await client.get("provider1")
+    let res = JSON.parse(prov1)
+    for(let i =0; i < res.length; i++){
+        if(res[i].type == body.type_real_estate){
+            el = res[i]
+            el["source"] = "prov1"
+            arr_res.push(el)
+        }
+    }
+
+    for (let i =0; i < 11; i++){
+        prov1 = await client.get(`provider2_${i+1}`)
+        res = JSON.parse(prov1)
+        for(let i =0; i < res.length; i++){
+            if(res[i].type_name == body.type_real_estate){
+                el = res[i]
+                el["source"] = "prov2"
+                arr_res.push(el)
+            }
+        }
+    }
+   
+    return {
+        "filter price result": arr_res
+    }
 }
 
 
-function filterTypeAndPrice(body){
-    return {}
+async function filterTypeAndPrice(body){
+    let arr_res = []
+    let mainRes = await builder.select()
+    let el = {}
+    for(let i = 0 ; i < mainRes.length; i++){
+        if(mainRes[i].type == body.type_real_estate && mainRes[i].declared_price >= body.price_from && mainRes[i].declared_price <= body.price_to){
+            el = mainRes[i]
+            el["source"] = "main"
+            arr_res.push(el)
+        }
+    }
+
+    let prov1 = await client.get("provider1")
+    let res = JSON.parse(prov1)
+    for(let i =0; i < res.length; i++){
+        if(res[i].type == body.type_real_estate && res[i].declared_price >= body.price_from && res[i].declared_price <= body.price_to){
+            el = res[i]
+            el["source"] = "prov1"
+            arr_res.push(el)
+        }
+    }
+
+    for (let i =0; i < 11; i++){
+        prov1 = await client.get(`provider2_${i+1}`)
+        res = JSON.parse(prov1)
+        for(let i =0; i < res.length; i++){
+            if(res[i].type_name == body.type_real_estate && res[i].price >= body.price_from && res[i].price <= body.price_to){
+                el = res[i]
+                el["source"] = "prov2"
+                arr_res.push(el)
+            }
+        }
+    }
+   
+    return {
+        "filter price result": arr_res
+    }
 }
 
 
