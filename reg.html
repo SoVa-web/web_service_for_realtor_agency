@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Сторінка реєстрації</title>
+    <meta charset="utf-8" />
+    <script href="https://cdn.jsdelivr.net/npm/cross-fetch@3.1.5/dist/browser-ponyfill.min.js"></script>
+</head>
+<body>
+<button  class="menu"  ><a href="index.html">Панель рієлтора</a></button>
+    <div class = "reg">    
+        <h1>Реєстрація</h1>
+        <div>
+             <form >
+                <label>ПІБ</label><br>
+                <input id="name" type="text" name="name" /><br><br>
+                <label>Номер телефону</label><br>
+                <input id="phone" type="text" name="phone" /><br><br>
+                <label>Логін (Ваш e-mail)</label><br>
+                <input id="login" type="text" name="email" /><br><br>
+                <label>Пароль</label><br>
+                <input id="password" type="text" name="password" /><br><br>
+            </form>
+                <button onclick="register()">Реестрація</button> 
+
+        </div>
+    </div>
+    <script>
+
+    const register = async ()=>{
+    let name = document.getElementById('name').value
+    let phone = document.getElementById('phone').value
+    let login = document.getElementById('login').value
+    let password = document.getElementById('password').value
+
+    if(name!='' && phone!='' && login!='' && password!=''){
+        console.log(name)
+
+        const response = await fetch(`http://localhost:3000/register?name=${name}&phone=${phone}&login=${login}&password=${password}`, {
+            mode: 'no-cors',
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'mode':'no-cors'
+            }
+        })
+
+        window.location = 'http://127.0.0.1:3000/index.html'
+    }
+}
+    </script>
+</body>
+</html>

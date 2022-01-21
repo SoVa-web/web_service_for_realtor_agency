@@ -115,6 +115,14 @@ $function$
 
 
 /************************************************************************************************************************************/
+create table worker(
+ID bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+full_name  varchar (255) NOT NULL, 
+phone_number varchar (255) NOT NULL,
+email varchar (255) NOT NULL,
+password varchar (255) NOT NULL
+)
+
 
 create table lessor(
 ID bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
@@ -367,6 +375,21 @@ AS $function$
 	where real_estate.active = TRUE
 $function$
 
+
+CREATE OR REPLACE FUNCTION public.reg_w(name_worker varchar (255), phone varchar (255), em varchar (255), pas varchar (255))
+ RETURNS integer
+ LANGUAGE plpgsql
+AS $function$
+declare 
+	new_id int = 0;
+begin
+	insert into worker (full_name, phone_number, email, password)
+			values(name_worker, phone, em, pas)
+			returning ID into new_id;
+			return new_id;
+end
+$function$
+
 CREATE OR REPLACE FUNCTION public.set_lessor(name_lessor varchar (255), phone_number varchar (255), email varchar (255))
  RETURNS integer
  LANGUAGE plpgsql
@@ -381,6 +404,20 @@ begin
 end
 $function$
 
+
+CREATE OR REPLACE FUNCTION public.set_lessee(name_lessor varchar (255), phone_number varchar (255), email varchar (255))
+ RETURNS integer
+ LANGUAGE plpgsql
+AS $function$
+declare 
+	new_id int = 0;
+begin
+	insert into lessor (full_name, contact_phone_number, contact_email)
+			values(name_lessor, phone_number, email)
+			returning ID into new_id;
+			return new_id;
+end
+$function$
 
 CREATE OR REPLACE FUNCTION public.set_ad(id_les bigint, adr text, 
 										 descr text, price float, 
@@ -397,3 +434,20 @@ begin
 			return new_id;
 end
 $function$
+
+CREATE OR REPLACE FUNCTION public.add_agreement(id_real bigint, 
+										 status_agr  varchar (255), 
+										 id_less bigint DEFAULT NULL)
+ RETURNS integer
+ LANGUAGE plpgsql
+AS $function$
+declare
+	new_id bigint =  0;
+begin
+	insert into agreement (id_real_estate, id_lessee, status)
+			values(id_real, id_less, status_agr)
+			returning ID into new_id;
+			return new_id;
+end
+$function$
+
