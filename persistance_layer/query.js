@@ -38,10 +38,16 @@ class Query_Constructor{
     return await this.send_query()
   }
 
-  async select_list(){ //if prov 2
+  async select_list(page){ //if prov 2
+    let low = ((page*5000) - 5000)
+    let uper = page*5000
     this.query = this.query
                           .set_connection(connect2)
-                          .set_string_query(`select*from getting_price_list_real_estate_by_name();`)
+                          //.set_string_query(`select*from getting_price_list_real_estate_by_name();`)
+                          .set_string_query(`select*from getting_price_list_real_estate_by_page('${low}', '${uper}');`)
+
+
+
     return await this.send_query()
   }
 

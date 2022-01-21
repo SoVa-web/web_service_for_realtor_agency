@@ -29,7 +29,7 @@ service2.post('/price-list/', urlencodedParser, async function (//done
   if (!request.body) return response.sendStatus(400)
   else{
     let result = await fasade.chain(request.path, request.query)
-    console.log("Sucsessfully got data from provider 2 \n"  + result)
+    console.log("Sucsessfully got data from provider 2 \n")
    response.send(
      result
    )

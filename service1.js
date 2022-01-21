@@ -15,7 +15,6 @@ const urlencodedParser = express.urlencoded({extended: false});//***************
 
 service1.use(express.static(path.join(__dirname)));//******************************************************************* */
 
-
 service1.listen(3001, () => {
     console.log('Application listening on port 3001!');
 });
@@ -29,10 +28,11 @@ service1.post('/search', urlencodedParser, async function (//done
   else{
     let result = await fasade.chain(request.path, request.query)
     console.log("Sucsessfully got data from provider 1 \n"  + result)
-   response.send(
-     result
-   )
-  
+    const send_f = ()=>{response.send(
+      result
+    )}
+    setTimeout(send_f, 20000)//
+
   }
   
 });

@@ -92,7 +92,7 @@ class SelectProvider2 extends Handler{
 
 	async query(body, builder){
 		try{
-			const result = await builder.select_list()
+			const result = await builder.select_list(body.number)
 			return result;
 		}
 		catch(err){

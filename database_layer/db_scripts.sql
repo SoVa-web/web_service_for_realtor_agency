@@ -156,6 +156,25 @@ FOREIGN KEY(id_lessee) REFERENCES lessee(ID)
 )
 
 
+create table lessor_cach(
+ID bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+full_name  varchar (255) NOT NULL, 
+contact_phone_number varchar (255) NOT NULL,
+contact_email varchar (255) NOT NULL
+)
+
+create table real_estate_cach(
+ID bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+id_lessor bigint NOT NULL,
+adress varchar (255) NOT NULL,
+description text,
+declared_price float,
+area float NOT NULL,
+"type" varchar (255) NOT NULL,
+active bool NOT NULL,
+FOREIGN KEY(id_lessor) REFERENCES lessor_cach(ID)
+)
+
 
 insert into lessor (full_name, contact_phone_number, contact_email)
 values ('Mark Markov', '+3806777777777', 'mark.thrtfg.w@gmail.com'),
@@ -207,6 +226,16 @@ select*from real_estate
 
 
 /*Provider 2*/
+
+CREATE OR REPLACE FUNCTION public.getting_price_list_real_estate_by_page(lower_id bigint, uper_id bigint)
+ RETURNS TABLE(id_real_estate bigint, price float, type_name character varying)
+ LANGUAGE sql
+AS $function$ 
+	select   distinct 
+	real_estate.ID as id_real_estate,  real_estate.declared_price * real_estate.area as price, real_estate.type as type_name
+	from real_estate 
+	where real_estate.ID >= lower_id and real_estate.ID < uper_id
+$function$
 
 select getting_price_list_real_estate()
 
@@ -283,6 +312,38 @@ AS $function$
 	where real_estate.declared_price >= price_down AND 
 	real_estate.declared_price <= price_up AND 
 	real_estate.active = TRUE
+$function$
+
+
+CREATE OR REPLACE FUNCTION public.set_lessor(name_lessor varchar (255), phone_number varchar (255), email varchar (255))
+ RETURNS integer
+ LANGUAGE plpgsql
+AS $function$
+declare 
+	new_id int = 0;
+begin
+	insert into lessor (full_name, contact_phone_number, contact_email)
+			values(name_lessor, phone_number, email)
+			returning ID into new_id;
+			return new_id;
+end
+$function$
+
+
+CREATE OR REPLACE FUNCTION public.set_ad(id_les bigint, adr text, 
+										 descr text, price float, 
+										 area_m float, type_real_estate varchar (255))
+ RETURNS integer
+ LANGUAGE plpgsql
+AS $function$
+declare
+	new_id bigint =  0;
+begin
+	insert into real_estate (id_lessor, adress, description, declared_price, area, type, active)
+			values(id_les, adr, descr, price, area_m, type_real_estate, TRUE)
+			returning ID into new_id;
+			return new_id;
+end
 $function$
 
 /* MAIN DB*/
