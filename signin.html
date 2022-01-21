@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Вхід</title>
+    <meta charset="utf-8" />
+    <script href="https://cdn.jsdelivr.net/npm/cross-fetch@3.1.5/dist/browser-ponyfill.min.js"></script>
+</head>
+<body>
+<button  class="menu"  ><a href="index.html">Панель адміністратора</a></button>
+    <div class = "signin">    
+        <h1>Вхід</h1>
+        <div>
+             <form >
+                <label>Логін</label><br>
+                <input id="loginS" type="text" name="log" /><br><br>
+                <label>Пароль</label><br>
+                <input id="passwordS" type="text" name="pas" /><br><br>
+            </form>
+                <button onclick="signin()" action="/enter">Увійти</button> 
+        </div>
+    </div>
+    <script>
+        
+    
+        const signin = async()=>{
+        let login = document.getElementById('loginS').value
+        let password = document.getElementById('passwordS').value
+
+        if(login!='' && password!=''){
+            const response = await fetch(`http://localhost:3000/signin?log=${login}&pas=${password}`, {
+            mode: 'cors',
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin':'*'
+            }
+            }).then(data => {
+                if (data.status == 200){
+                     window.location = 'http://127.0.0.1:3000/index.html'
+                }
+            })
+
+        }
+
+
+        }
+    </script>
+</body>
+</html>

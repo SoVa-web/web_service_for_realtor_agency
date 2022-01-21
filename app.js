@@ -7,7 +7,10 @@ import Fasade from './business_layer/fasade.js';
 import cache from './cach.js'
 import fetch from 'cross-fetch';
 import client from './redis-server.js';
-
+import bodyParser from 'express';
+import * as grpc from '@grpc/grpc-js';
+import * as protoLoader from '@grpc/proto-loader';
+import cors from 'cors';
 
 
 client.connect()
@@ -20,7 +23,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-
+app.use(bodyParser.json());
+app.use(cors())
 
 
 const urlencodedParser = express.urlencoded({extended: false});//********************************************************** */
@@ -32,6 +36,7 @@ app.listen(3000, () => {
   caching()
 });
 
+app.use(bodyParser.json());
 
 app.post('/addAd', urlencodedParser,  async function (//done
   request,
@@ -263,3 +268,85 @@ function cache_prov1(){
     })
   });
 }
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+var PROTO_PATH = './proto/user.proto';
+
+var packageDefinition = protoLoader.loadSync(
+    PROTO_PATH,
+    {keepCase: true,
+     defaults: true,
+     oneofs: true
+    });
+var reg_proto = grpc.loadPackageDefinition(packageDefinition).reg;
+
+
+///////////////////////////////////////////////////////////////
+
+app.post('/register', urlencodedParser, async function (
+  req,
+  res
+) {
+  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+  let name = req.query.name
+  let phone = req.query.phone
+  let login = req.query.login
+  let password = req.query.password
+
+  let obj_user = {
+    "name": name,
+    "phone": phone,
+    "login": login,
+    "password": password
+  }
+
+  var client = new reg_proto.Users('localhost:3003',
+  grpc.credentials.createInsecure());
+
+  client.CreateUser(obj_user, function(err, response) {
+    console.log(response);
+    res.send(response)
+  });
+
+})
+
+
+
+var PROTO_PATH = './proto/authentication.proto';
+
+var packageDefinition = protoLoader.loadSync(
+    PROTO_PATH,
+    {keepCase: true,
+     defaults: true,
+     oneofs: true
+    });
+var auto_proto = grpc.loadPackageDefinition(packageDefinition).auto;
+
+app.post('/signin',urlencodedParser, async function (
+
+  req,
+  res
+) {
+  let login = req.query.log
+  let password = req.query.pas
+
+  let auth_obj = {
+    "password": password,
+    "login": login
+  }
+
+
+  var client = new auto_proto.Data('localhost:3004',
+  grpc.credentials.createInsecure());
+
+  client.SignInUser(auth_obj, function(err, response) {
+    console.log(response)
+    if (response.status == 1){
+      res.status(200).send("Well");
+    }else{
+      res.status(404).send("Not found");
+    }
+  });
+
+})
