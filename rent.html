@@ -1,25 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Додавання угоди</title>
+    <title>Закриття оголошення</title>
     <meta charset="utf-8" />
     <script href="https://cdn.jsdelivr.net/npm/cross-fetch@3.1.5/dist/browser-ponyfill.min.js"></script>
 </head>
 <body>
     <div class = "agr">    
-        <h1>Реєстрація</h1>
+        <h1>Закриття оголошення</h1>
         <div>
              <form >
                 <label>Ідентифікатор нерухомості</label><br>
-                <input id="id" type="text" name="id" /><br><br>
-                <label>Постачальник (main, provider1, provider2)</label><br>
-                <input id="source" type="text" name="source" /><br><br>
-                <label>Повне ім'я</label><br>
-                <input id="name" type="text" name="name" /><br><br>
-                <label>Номер телефону орендаря</label><br>
-                <input id="phone" type="text" name="phone" /><br><br>
-                <label>E-mail орендаря</label><br>
-                <input id="email" type="text" name="email" /><br><br>
+                <input id="id" type="number" name="id" /><br><br>
                 <label>Cтатус угоди</label><br>
                 <input id="st" type="text" name="st" /><br><br>
 
@@ -31,10 +23,28 @@
     <script>
 
     const add_agr = async ()=>{
-    let name = document.getElementById('name').value
-    let phone = document.getElementById('phone').value
-    let email = document.getElementById('email').value
-    let st = document.getElementById('st').value
+        let id = document.getElementById('id').value
+        let st = document.getElementById('st').value
+
+        if (id != '' && st != ''){
+            const response = await fetch(`http://localhost:3000/add_agr?id=${id}&st=${st}`, {
+            mode: 'cors',
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin':'*'
+            }
+            }).then(data => {
+                if (data.status == 200){
+                    window.location = 'http://127.0.0.1:3000/index.html'
+                }else{
+                    console.log("Something is wrong")
+                }
+                
+            })
+        }
+            
 }
     </script>
 </body>

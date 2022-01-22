@@ -11,6 +11,17 @@ import bodyParser from 'express';
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import cors from 'cors';
+import retry from 'retry'
+
+
+var operation = retry.operation({
+  retries: 5,
+  factor: 3,
+  minTimeout: 1 * 1000,
+  maxTimeout: 60 * 1000,
+  randomize: true,
+});
+
 
 
 client.connect()
@@ -269,6 +280,50 @@ function cache_prov1(){
   });
 }
 
+
+app.post('/add_agr', urlencodedParser, async function (
+  req,
+  result
+) {
+  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+  let id = req.query.id
+  let st = req.query.st
+
+  var config_options = {//conctuctor url
+    host: 'localhost',
+    port: 3005,/* to builder */
+    path: `/add_agr?id=${id}&st=${st}`,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'mode': 'cors'
+    }
+  };
+
+  http.get(config_options, async function (res) {
+    res.setEncoding('utf8')
+
+    let data = ''
+
+    res.on('data', function (item_data) {
+      data += item_data.toString()
+    });
+
+    res.on('end', async  function () {
+      if (typeof(JSON.parse(data).res) == "number"){
+        result.status(200).send("Well");
+      }else{
+        result.status(404).send("Not found");
+      }
+      
+      
+    })
+  });
+
+  
+
+})
+
 ////////////////////////////////////////////////////////////////////////////////////////
 
 var PROTO_PATH = './proto/user.proto';
@@ -350,3 +405,4 @@ app.post('/signin',urlencodedParser, async function (
   });
 
 })
+
